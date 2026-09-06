@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+*.patch text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+
+*.bmp binary
+*.gif binary
+*.icns binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary

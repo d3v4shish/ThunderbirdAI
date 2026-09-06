@@ -1,0 +1,615 @@
+diff --git a/.hgignore b/.hgignore
+--- a/.hgignore
++++ b/.hgignore
+@@ -80,6 +80,12 @@
+ # Build directories
+ ^obj.*/
+ 
++# Local bootstrap/toolchain/cache artifacts.
++^\.mozbuild-state/
++^\.uv-cache/
++^clang/
++^codex-local-dev/
++
+ # Hazard analysis results
+ ^haz-.*/
+ 
+diff --git a/docs/ai-pane-ownership-split.md b/docs/ai-pane-ownership-split.md
+new file mode 100644
+--- /dev/null
++++ b/docs/ai-pane-ownership-split.md
+@@ -0,0 +1,97 @@
++# AI Pane Ownership Split and AI Control Center
++
++## Goal
++
++Make `AI`, `Assistant`, `LLM Chat`, and `LLM Sources` true owner panes instead
++of overlapping summary shells.
++
++## Control Center Rules
++
++- `AI` is the shared control-center pane.
++  - It owns shared status, MCP controls, AI workflows, automation suggestions,
++    runtime/performance controls, and shared operational actions.
++  - It must not own Assistant-only prompt editing, `LLM Chat` prompt editing,
++    summary prompt editing, source CRUD, or extraction compatibility controls.
++- `Assistant` is distinct from `AI`.
++  - It owns Assistant-specific behavior, retrieval/fallback status, and the
++    Assistant prompt only.
++- `Summaries` owns the summary prompt and summarizer test surface.
++- `Templates` owns advanced extraction compatibility in a collapsed advanced
++  section.
++
++## Ownership Rules
++
++- `Assistant` owns Assistant behavior only.
++  - It may show Assistant status, Assistant model status, retrieval health, and
++    Assistant fallback binding.
++  - It must not own source CRUD, raw endpoint fields, MCP controls, AI
++    workflows, automation suggestions, or shared performance controls.
++- `LLM Chat` owns raw chat binding and chat-specific status.
++  - It may show the effective chat source and allow chat binding changes.
++  - It must not own source CRUD.
++- `LLM Sources` owns saved endpoint inventory.
++  - It owns source add/edit/delete/test and role assignment to
++    `Assistant fallback`, `LLM Chat`, and `Background`.
++
++## Binding Rules
++
++- `mail.ai.source_id` remains the default saved source.
++- `mail.ai.assistant_fallback.source_id` overrides Assistant fallback only.
++- `mail.ai.llm_chat.source_id` overrides raw LLM Chat only.
++- `mail.ai.background.source_id` overrides background endpoint summaries only.
++- Empty role-specific prefs inherit the default provider/source behavior.
++
++## Acceptance Criteria
++
++- Opening `AI` shows shared status, MCP controls, workflows, automation
++  suggestions, and analysis performance controls.
++- Opening `Assistant` shows no shared control-center sections.
++- Opening `Assistant` shows no saved-source editor and no raw endpoint URL or
++  token fields.
++- Opening `LLM Sources` allows full source management without opening
++  `Assistant`.
++- Opening `LLM Chat` shows and changes the raw chat binding without opening
++  `Assistant`.
++- Assistant prompt editing exists only in `Assistant`.
++- `LLM Chat` prompt editing exists only in `LLM Chat`.
++- Summary prompt editing exists only in `Summaries`.
++- Advanced extraction compatibility exists only in `Templates`.
++- Assistant fallback and LLM Chat can point at different saved sources.
++- Background endpoint use can point at a different saved source.
++- Runtime status and footer-facing summaries expose distinct bindings for
++  Assistant, `LLM Chat`, and Background.
++- Assistant model status is distinct from Summarizer model status.
++
++## Pane-Local Test Log Contract
++
++- Every pane-level `Test ...` action renders its latest result directly below
++  that pane's test-button row.
++- The pane-local log must show:
++  - timestamp
++  - target tested
++  - pass/fail/skipped state
++  - short message
++- The pane-local log must update in place on repeat runs.
++- Global/runtime status may also update, but it must not replace the pane-local
++  log surface.
++
++## Tests
++
++- Browser prefs coverage:
++  - `AI` owns shared control-center sections.
++  - `Assistant` owns Assistant-only prompt and fallback controls.
++  - `LLM Sources` owns source CRUD and role assignment.
++  - `Assistant` no longer exposes source CRUD.
++  - `LLM Chat` exposes and changes its dedicated binding.
++  - `Templates` owns extraction compatibility.
++  - pane-local test logs render in the pane where the action was triggered.
++- Xpcshell coverage:
++  - role-specific endpoint bindings override the default source.
++  - Assistant, `LLM Chat`, and Background resolve to different sources when set.
++
++## Final Reporting Format
++
++- `Planned`
++- `Implemented`
++- `Tested`
++- `Remaining gaps`
+diff --git a/testing/profiles/unittest-required/user.js b/testing/profiles/unittest-required/user.js
+--- a/testing/profiles/unittest-required/user.js
++++ b/testing/profiles/unittest-required/user.js
+@@ -8,6 +8,10 @@
+ /* globals user_pref */
+ // Make sure Shield doesn't hit the network.
+ user_pref("app.normandy.api_url", "");
++// Thunderbird attachment signature updates are covered by tests that opt in
++// with local HTTP fixtures. Do not contact the production ClamAV mirror from
++// general browser-test profiles.
++user_pref("mail.attachments.security.signatures.auto_update", false);
+ // Make sure the notification permission migration test doesn't hit the network.
+ user_pref("app.support.baseURL", "http://{server}/support-dummy/");
+ user_pref("app.update.staging.enabled", false);
+diff --git a/testing/xpcshell/mach_commands.py b/testing/xpcshell/mach_commands.py
+--- a/testing/xpcshell/mach_commands.py
++++ b/testing/xpcshell/mach_commands.py
+@@ -61,6 +61,7 @@
+             len(kwargs["testPaths"]) == 1
+             and os.path.isfile(kwargs["testPaths"][0])
+             or kwargs["manifest"]
++            and not isinstance(kwargs["manifest"], str)
+             and (len(kwargs["manifest"].test_paths()) == 1)
+         )
+ 
+@@ -296,7 +297,11 @@
+         if "manifest" in params and params["manifest"]:
+             # When run from "mach test", the manifest is available now.
+             try:
+-                tags = " ".join(params["manifest"].get("tags")).split(" ")
++                tags = (
++                    " ".join(params["manifest"].get("tags")).split(" ")
++                    if not isinstance(params["manifest"], str)
++                    else []
++                )
+             except KeyError:
+                 # .get("tags") may raise KeyError.
+                 tags = []
+diff --git a/toolkit/components/ml/actors/MLEngineParent.sys.mjs b/toolkit/components/ml/actors/MLEngineParent.sys.mjs
+--- a/toolkit/components/ml/actors/MLEngineParent.sys.mjs
++++ b/toolkit/components/ml/actors/MLEngineParent.sys.mjs
+@@ -810,6 +810,66 @@
+   }
+ 
+   /**
++   * Returns the newest cached runtime attachment from OPFS for the given backend.
++   *
++   * This keeps already-downloaded Gecko ML runtime files usable when
++   * Remote Settings metadata is temporarily unavailable.
++   *
++   * @param {string} backend
++   * @returns {Promise<ArrayBuffer | null>}
++   */
++  static async #getCachedWasmArrayBuffer(backend) {
++    const runtimeRoot = `${RUNTIME_ROOT_IN_OPFS}/${backend}`;
++    const expectedFileName =
++      MLEngineParent.WASM_FILENAME[backend || MLEngineParent.DEFAULT_BACKEND];
++    let runtimeDirectory;
++    try {
++      runtimeDirectory = await lazy.OPFS.getDirectoryHandle(runtimeRoot, {
++        create: false,
++      });
++    } catch (error) {
++      if (error?.name == "NotFoundError") {
++        return null;
++      }
++      throw error;
++    }
++
++    let newestFile = null;
++    for await (const [_version, handle] of runtimeDirectory.entries()) {
++      if (handle.kind != "directory") {
++        continue;
++      }
++      let fileHandle;
++      try {
++        fileHandle = await handle.getFileHandle(expectedFileName, {
++          create: false,
++        });
++      } catch (error) {
++        if (error?.name == "NotFoundError") {
++          continue;
++        }
++        throw error;
++      }
++      const file = await fileHandle.getFile();
++      if (
++        !newestFile ||
++        Number(file.lastModified) > Number(newestFile.lastModified)
++      ) {
++        newestFile = file;
++      }
++    }
++
++    if (!newestFile) {
++      return null;
++    }
++
++    lazy.console.debug(
++      `Using cached Gecko ML runtime attachment ${newestFile.name} for backend ${backend}.`
++    );
++    return new Response(newestFile.stream()).arrayBuffer();
++  }
++
++  /**
+    * Download the wasm for the ML inference engine.
+    *
+    * @param {string} backend - The ML engine for which the WASM buffer is requested.
+@@ -831,12 +891,23 @@
+     try {
+       wasmRecord = await MLEngineParent.#wasmRecord[backend];
+       if (!wasmRecord) {
++        const cachedBuffer =
++          await MLEngineParent.#getCachedWasmArrayBuffer(backend);
++        if (cachedBuffer) {
++          return cachedBuffer;
++        }
+         return Promise.reject(
+           "Error: Unable to get the ML engine from Remote Settings."
+         );
+       }
+     } catch (error) {
++      const cachedBuffer = await MLEngineParent.#getCachedWasmArrayBuffer(
++        backend
++      );
+       MLEngineParent.#wasmRecord[backend] = null;
++      if (cachedBuffer) {
++        return cachedBuffer;
++      }
+       throw error;
+     }
+ 
+diff --git a/toolkit/components/ml/content/EngineProcess.sys.mjs b/toolkit/components/ml/content/EngineProcess.sys.mjs
+--- a/toolkit/components/ml/content/EngineProcess.sys.mjs
++++ b/toolkit/components/ml/content/EngineProcess.sys.mjs
+@@ -549,6 +549,13 @@
+   kvCacheDtype = null;
+ 
+   /**
++   * Number of llama model layers to offload to the GPU.
++   *
++   * @type {?number}
++   */
++  numGpuLayers = null;
++
++  /**
+    * Maximum context size
+    *
+    * @type {?number}
+@@ -577,6 +584,13 @@
+   flashAttn = false;
+ 
+   /**
++   * Whether to offload K/Q/V ops and KV cache to the GPU.
++   *
++   * @type {?boolean}
++   */
++  offloadKqv = null;
++
++  /**
+    * Whether to use memory mapped for the model
+    *
+    * @type {?boolean}
+@@ -695,6 +709,7 @@
+       modelHub: ModelHub,
+       kvCacheDtype: KVCacheQuantizationLevel,
+       flashAttn: AllowedBoolean,
++      offloadKqv: AllowedBoolean,
+       useMmap: AllowedBoolean,
+       useMlock: AllowedBoolean,
+     };
+@@ -849,10 +864,12 @@
+       "executionPriority",
+       "useExternalDataFormat",
+       "kvCacheDtype",
++      "numGpuLayers",
+       "numContext",
+       "numBatch",
+       "numUbatch",
+       "flashAttn",
++      "offloadKqv",
+       "useMmap",
+       "useMlock",
+       "numThreadsDecoding",
+@@ -927,6 +944,7 @@
+           "executionPriority",
+           "logLevel",
+           "kvCacheDtype",
++          "offloadKqv",
+         ].includes(key)
+       ) {
+         this.#validateEnum(key, options[key]);
+@@ -948,6 +966,10 @@
+         this.#validateModelFile(key, options[key]);
+       }
+ 
++      if (key == "numGpuLayers") {
++        this.#validateIntegerRange(key, options[key], 0, 10000000);
++      }
++
+       if (["numContext", "numBatch", "numUbatch"].includes(key)) {
+         this.#validateIntegerRange(key, options[key], 1, 10000000);
+       }
+@@ -998,10 +1020,12 @@
+       executionPriority: this.executionPriority,
+       useExternalDataFormat: this.useExternalDataFormat,
+       kvCacheDtype: this.kvCacheDtype,
++      numGpuLayers: this.numGpuLayers,
+       numContext: this.numContext,
+       numBatch: this.numBatch,
+       numUbatch: this.numUbatch,
+       flashAttn: this.flashAttn,
++      offloadKqv: this.offloadKqv,
+       useMmap: this.useMmap,
+       useMlock: this.useMlock,
+       numThreadsDecoding: this.numThreadsDecoding,
+diff --git a/toolkit/components/ml/content/backends/LlamaCppPipeline.mjs b/toolkit/components/ml/content/backends/LlamaCppPipeline.mjs
+--- a/toolkit/components/ml/content/backends/LlamaCppPipeline.mjs
++++ b/toolkit/components/ml/content/backends/LlamaCppPipeline.mjs
+@@ -56,6 +56,8 @@
+  * @param {number} [options.numUbatch=700] - Number of micro-batches to split inference into.
+  * @param {number} [options.numThreads=0] - Number of CPU threads to use (default: auto).
+  * @param {boolean} [options.flashAttn=false] - Whether to enable Flash Attention for optimization.
++ * @param {number} [options.numGpuLayers=0] - Number of model layers to offload to the GPU.
++ * @param {boolean} [options.offloadKqv=true] - Whether to offload K/Q/V ops and KV cache to the GPU.
+  * @param {boolean} [options.useMmap=false] - Whether to use memory-mapped file loading.
+  * @param {boolean} [options.useMlock=true] - Whether to lock model files in memory to prevent swapping.
+  * @param {string} [options.kvCacheDtype="q8_0"] - Data type of the model weights (e.g., "q8_0" for 8-bit quantization).
+@@ -97,6 +99,8 @@
+       numUbatch = 700,
+       numThreads = 0,
+       flashAttn = false,
++      numGpuLayers = 0,
++      offloadKqv = true,
+       useMmap = false,
+       useMlock = true,
+       kvCacheDtype = "q8_0",
+@@ -147,8 +151,8 @@
+     options = {
+       n_ctx: numContext,
+       useCache: false,
+-      n_gpu_layers: 0,
+-      offload_kqv: false,
++      n_gpu_layers: numGpuLayers,
++      offload_kqv: offloadKqv,
+       n_batch: numBatch,
+       n_ubatch: numUbatch,
+       use_mmap: useMmap,
+@@ -174,10 +178,17 @@
+       {
+         useMmap,
+         useMlock,
++        nGpuLayers: numGpuLayers,
+         context: {
+           nThreads: options.n_threads,
+           nThreadsBatch: options.n_threads_decoding,
+           nCtx: numContext,
++          nBatch: numBatch,
++          nUbatch: numUbatch,
++          kCacheDtype: cacheType,
++          vCacheDtype: cacheType,
++          offloadKqv,
++          flashAttn,
+         },
+       },
+       modelBlob
+@@ -303,7 +314,7 @@
+         if (skipPrompt && isPrompt) {
+           continue;
+         }
+-        output += chunk;
++        output += chunk.piece || "";
+         port?.postMessage({
+           tokens: chunk.tokens,
+           ok: true,
+diff --git a/toolkit/components/ml/content/backends/LlamaPipeline.mjs b/toolkit/components/ml/content/backends/LlamaPipeline.mjs
+--- a/toolkit/components/ml/content/backends/LlamaPipeline.mjs
++++ b/toolkit/components/ml/content/backends/LlamaPipeline.mjs
+@@ -70,6 +70,8 @@
+  * @param {number} [options.numUbatch=700] - Number of micro-batches to split inference into.
+  * @param {number} [options.numThreads=0] - Number of CPU threads to use (default: auto).
+  * @param {boolean} [options.flashAttn=false] - Whether to enable Flash Attention for optimization.
++ * @param {number} [options.numGpuLayers=0] - Number of model layers to offload to the GPU.
++ * @param {boolean} [options.offloadKqv=true] - Whether to offload K/Q/V ops and KV cache to the GPU.
+  * @param {boolean} [options.useMmap=false] - Whether to use memory-mapped file loading.
+  * @param {boolean} [options.useMlock=true] - Whether to lock model files in memory to prevent swapping.
+  * @param {string} [options.kvCacheDtype="q8_0"] - Data type of the model weights (e.g., "q8_0" for 8-bit quantization).
+@@ -100,6 +102,8 @@
+       numUbatch = 700,
+       numThreads = 0,
+       flashAttn = false,
++      numGpuLayers = 0,
++      offloadKqv = true,
+       useMmap = false,
+       useMlock = true,
+       kvCacheDtype = "q8_0",
+@@ -173,8 +177,8 @@
+     await wllama.loadModel(blobs, {
+       n_ctx: numContext,
+       useCache: false,
+-      n_gpu_layers: 0,
+-      offload_kqv: false,
++      n_gpu_layers: numGpuLayers,
++      offload_kqv: offloadKqv,
+       n_batch: numBatch,
+       n_ubatch: numUbatch,
+       use_mmap: useMmap,
+diff --git a/toolkit/components/ml/tests/browser/browser_ml_engine_lifetime.js b/toolkit/components/ml/tests/browser/browser_ml_engine_lifetime.js
+--- a/toolkit/components/ml/tests/browser/browser_ml_engine_lifetime.js
++++ b/toolkit/components/ml/tests/browser/browser_ml_engine_lifetime.js
+@@ -3,12 +3,64 @@
+ 
+ "use strict";
+ 
++const { OPFS } = ChromeUtils.importESModule(
++  "chrome://global/content/ml/OPFS.sys.mjs"
++);
++
+ const MOZ_ECHO_OPTIONS_RAW = { taskName: "moz-echo", timeoutMS: -1 };
+ const MOZ_ECHO_OPTIONS = new PipelineOptions({
+   taskName: "moz-echo",
+   timeoutMS: -1,
+ });
+ 
++add_task(async function test_ml_engine_uses_cached_runtime_when_rs_is_empty() {
++  const { cleanup, remoteClients } = await setup();
++  const backend = MLEngineParent.DEFAULT_BACKEND;
++  const runtimeRoot = `mlRuntimeFiles/${backend}`;
++  const cachedPath = `${runtimeRoot}/${MLEngineParent.WASM_MAJOR_VERSION[
++    backend
++  ]}.cached/${MLEngineParent.WASM_FILENAME[backend]}`;
++  const cachedBytes = new Uint8Array([9, 7, 5, 3]);
++
++  try {
++    await remoteClients["ml-onnx-runtime"].client.db.clear();
++    await remoteClients["ml-onnx-runtime"].client.attachments.deleteAll();
++    MLEngineParent.mockRemoteSettings({
++      "ml-onnx-runtime": remoteClients["ml-onnx-runtime"].client,
++      "ml-inference-options": remoteClients["ml-inference-options"],
++      "ml-model-allow-deny-list": remoteClients["ml-model-allow-deny-list"],
++    });
++
++    const fileHandle = await OPFS.getFileHandle(cachedPath, { create: true });
++    const writable = await fileHandle.createWritable({
++      keepExistingData: false,
++      mode: "siloed",
++    });
++    await writable.write(cachedBytes);
++    await writable.close();
++
++    const cachedBuffer = await MLEngineParent.getWasmArrayBuffer(backend);
++    Assert.deepEqual(
++      Array.from(new Uint8Array(cachedBuffer)),
++      Array.from(cachedBytes),
++      "Cached OPFS runtime bytes should be used when Remote Settings has no runtime record."
++    );
++
++    await OPFS.remove(runtimeRoot, { recursive: true });
++
++    await Assert.rejects(
++      MLEngineParent.getWasmArrayBuffer(backend),
++      /Remote Settings/,
++      "Without a Remote Settings record or cached runtime, the original error should still surface."
++    );
++  } finally {
++    try {
++      await OPFS.remove(runtimeRoot, { recursive: true });
++    } catch {}
++    await cleanup();
++  }
++});
++
+ /**
+  * Performing a basic engine initialization and run.
+  */
+@@ -537,10 +589,12 @@
+         numThreads: "NOT_COMPARED",
+         executionPriority: null,
+         kvCacheDtype: null,
++        numGpuLayers: null,
+         numContext: 1024,
+         numBatch: 1024,
+         numUbatch: 1024,
+         flashAttn: false,
++        offloadKqv: null,
+         useMmap: false,
+         useMlock: true,
+         numThreadsDecoding: null,
+diff --git a/toolkit/components/ml/tests/browser/browser_ml_engine_pipeline_options.js b/toolkit/components/ml/tests/browser/browser_ml_engine_pipeline_options.js
+--- a/toolkit/components/ml/tests/browser/browser_ml_engine_pipeline_options.js
++++ b/toolkit/components/ml/tests/browser/browser_ml_engine_pipeline_options.js
+@@ -618,6 +618,16 @@
+     options: { logLevel: "invalid_log_level" },
+     expectedError: /Invalid value/,
+   },
++  {
++    description: "Invalid numGpuLayers",
++    options: { numGpuLayers: -1 },
++    expectedError: /Invalid value/,
++  },
++  {
++    description: "Invalid offloadKqv",
++    options: { offloadKqv: "invalid" },
++    expectedError: /Invalid value/,
++  },
+ 
+   // Valid values
+   {
+@@ -672,6 +682,16 @@
+     expected: { logLevel: LogLevel.ALL },
+   },
+   {
++    description: "Valid numGpuLayers",
++    options: { numGpuLayers: 24 },
++    expected: { numGpuLayers: 24 },
++  },
++  {
++    description: "Valid offloadKqv",
++    options: { offloadKqv: true },
++    expected: { offloadKqv: true },
++  },
++  {
+     description: "Valid modelId",
+     options: { modelId: "Qwen2.5-0.5B-Instruct" },
+     expected: { modelId: "Qwen2.5-0.5B-Instruct" },
+diff --git a/toolkit/components/ml/tests/xpcshell/test_engine_process_pipeline_options.js b/toolkit/components/ml/tests/xpcshell/test_engine_process_pipeline_options.js
+new file mode 100644
+--- /dev/null
++++ b/toolkit/components/ml/tests/xpcshell/test_engine_process_pipeline_options.js
+@@ -0,0 +1,56 @@
++/* Any copyright is dedicated to the Public Domain.
++   http://creativecommons.org/publicdomain/zero/1.0/ */
++
++"use strict";
++
++const {
++  InferenceDevice,
++  PipelineOptions,
++} = ChromeUtils.importESModule(
++  "chrome://global/content/ml/EngineProcess.sys.mjs"
++);
++
++add_task(function test_pipeline_options_accept_llama_gpu_offload_controls() {
++  const options = new PipelineOptions({
++    taskName: "test-echo",
++    modelId: "test-echo",
++    modelRevision: "main",
++    device: InferenceDevice.GPU,
++    numGpuLayers: 24,
++    offloadKqv: true,
++  });
++
++  Assert.equal(options.numGpuLayers, 24);
++  Assert.equal(options.offloadKqv, true);
++
++  const config = {};
++  options.applyToConfig(config);
++  Assert.equal(config.numGpuLayers, 24);
++  Assert.equal(config.offloadKqv, true);
++});
++
++add_task(function test_pipeline_options_reject_invalid_llama_gpu_offload_controls() {
++  Assert.throws(
++    () =>
++      new PipelineOptions({
++        taskName: "test-echo",
++        modelId: "test-echo",
++        modelRevision: "main",
++        numGpuLayers: -1,
++      }),
++    /Invalid value/,
++    "Negative GPU layer counts should be rejected"
++  );
++
++  Assert.throws(
++    () =>
++      new PipelineOptions({
++        taskName: "test-echo",
++        modelId: "test-echo",
++        modelRevision: "main",
++        offloadKqv: "yes",
++      }),
++    /Invalid value/,
++    "Non-boolean offloadKqv values should be rejected"
++  );
++});
+diff --git a/toolkit/components/ml/tests/xpcshell/xpcshell.toml b/toolkit/components/ml/tests/xpcshell/xpcshell.toml
+--- a/toolkit/components/ml/tests/xpcshell/xpcshell.toml
++++ b/toolkit/components/ml/tests/xpcshell/xpcshell.toml
+@@ -8,6 +8,7 @@
+ 
+ ["test_condition_evaluator.js"]
+ ["test_decision_types.js"]
++["test_engine_process_pipeline_options.js"]
+ ["test_json_policy_system.js"]
+ ["test_ml_engine_security.js"]
+ ["test_policy_evaluator.js"]

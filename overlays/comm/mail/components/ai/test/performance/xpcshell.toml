@@ -1,0 +1,4 @@
+[DEFAULT]
+head = "head_xpcshell_benchmark.js"
+
+["perftest_ai_storage_search.js"]

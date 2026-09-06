@@ -1,0 +1,2 @@
+third_party/clamav/database/daily.cvd
+third_party/clamav/database/main.cvd

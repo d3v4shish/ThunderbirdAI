@@ -1,0 +1,19 @@
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*~
+
+# Python validation tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Local verification and build output
+*.log
+artifacts/
+build/
+dist/
+tmp/

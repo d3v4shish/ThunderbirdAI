@@ -1,0 +1,678 @@
+{
+  "schema_version": 2,
+  "project": "ThunderbirdAI",
+  "generated_at": "2026-09-06T14:37:03.695129+00:00",
+  "description": "Reproducible export of the active ThunderbirdAI Mercurial worktrees. Patches contain tracked changes; overlays contain authored unknown files; deletion lists contain intentionally absent tracked files.",
+  "repositories": [
+    {
+      "id": "gecko",
+      "upstream": "https://hg.mozilla.org/mozilla-unified",
+      "base_revision": "54d5670601c9b2567d694229f03231bf773746ad",
+      "patch": {
+        "path": "patches/mozilla-unified-54d5670601c9.patch",
+        "size_bytes": 21544,
+        "sha256": "0547b2aeb992c9b8bdac158fd1be1785ea747187b8f4adbc2a08ceaacc9607c6",
+        "file_count": 12
+      },
+      "overlay": {
+        "path": "overlays/mozilla-unified",
+        "file_count": 0,
+        "content_bytes": 0,
+        "files": []
+      },
+      "deletions": {
+        "path": "deletions/mozilla-unified.txt",
+        "file_count": 0,
+        "files": []
+      },
+      "worktree_status": {
+        "modified": 10,
+        "added": 2
+      }
+    },
+    {
+      "id": "comm",
+      "upstream": "https://hg.mozilla.org/comm-central",
+      "base_revision": "a0de8c0b460faf0b30917f2e545998ef312727b4",
+      "patch": {
+        "path": "patches/comm-a0de8c0b460f.patch",
+        "size_bytes": 4062663,
+        "sha256": "055cb17973efc5359c21378369e73538c192f5610dd2569383cba2e8ede4aedb",
+        "file_count": 201
+      },
+      "overlay": {
+        "path": "overlays/comm",
+        "file_count": 102,
+        "content_bytes": 6229363,
+        "files": [
+          {
+            "path": "mail/base/test/browser/browser_ai0ColdProfile.js",
+            "size_bytes": 2075,
+            "sha256": "ef4b11fb2d517775409e9a07ec18cdfd99fd186d2cab64da6c66646f957cc3e9",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/base/test/unit/test_attachmentClamAVIntegration.js",
+            "size_bytes": 5861,
+            "sha256": "bb76fc277c0f5830939726cebe160854a99fb7598549afd77c460db8807470cb",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/base/test/unit/test_attachmentClamAVUpdate.js",
+            "size_bytes": 10493,
+            "sha256": "d198c369d374efa84c83d4c11cc3a6ac94eafe363c7ca8d344e3a4f3a97ea1d7",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/README.md",
+            "size_bytes": 509,
+            "sha256": "72df434f8cb1ab3307e40b8318f61626d3d3ceebf308ec40717d40f429f20fd3",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/TB-symbolic.svg",
+            "size_bytes": 2216,
+            "sha256": "53b53d05ba7f41c9140895f01d1788b756d4e5e67928beab513884ce31a442fd",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/VisualElements_150.png",
+            "size_bytes": 34866,
+            "sha256": "653fbb9b0effaea4cde6efe23e7e9dc8f3b37cbf85e2c5ce764b6bd9e6fa7d17",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/VisualElements_70.png",
+            "size_bytes": 10542,
+            "sha256": "2c3db52eff53b45e6646f4051e921722ae1a9077a27f0118dae1b2bd31257017",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/addressbook.ico",
+            "size_bytes": 421,
+            "sha256": "a4807d84965b6aa1d8ee75609e48c27b42621dfa7303607ae19095aea1da635b",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/assets/red-thunderbirdai-icon.png",
+            "size_bytes": 1587578,
+            "sha256": "cbb19e725c0dca8549cd29952290f7549853ae0d0fe3e0e40092955807722131",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/background.png",
+            "size_bytes": 104367,
+            "sha256": "fefe86c3288e98c77f35f500ae5c6979a7b1c0d8901efa6ba77e815f604ce256",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/branding.nsi",
+            "size_bytes": 917,
+            "sha256": "90d18bc2bab3e3c826c17b4a4616d7cd872585d13301ead81e12d63e86635e2b",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/configure.sh",
+            "size_bytes": 273,
+            "sha256": "57cc942e17b302a86f09769c4f5462ff5cb4e2aba3a5e92b7e1600f9dd12b358",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/about-background.png",
+            "size_bytes": 132274,
+            "sha256": "ec1778309568753024ab678f01b3eae01182703bdd584e86b9de4ef923639209",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/about-logo.png",
+            "size_bytes": 19844,
+            "sha256": "cda7043acd142ee52b37c2a854f192bccb404596501885fb5903a34db53ccb2e",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/about-logo.svg",
+            "size_bytes": 9272,
+            "sha256": "e7c9263546f19802286a22494dcfba5af8f1655be1b7685840b581ddaf2f9bf2",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/about-logo@2x.png",
+            "size_bytes": 51812,
+            "sha256": "87c58413f1df0e76ebe23db40e6eca56bacc7371cb8ab91068539f9cd9270e1e",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/about-wordmark.svg",
+            "size_bytes": 8733,
+            "sha256": "cffe83c4ffe29c25497b826040d05aded17a959be199186aa7c59971a306c57c",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/about.png",
+            "size_bytes": 59230,
+            "sha256": "b4efc7cdd7eeaad54001e720ac6c790386efae5e0bb42b13a42dbb35a3c3204a",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/aboutDialog.css",
+            "size_bytes": 859,
+            "sha256": "b27a9b5e11469a31bc54fbc22ac31c1148ba4a4358ee14c256a9f9bff887d4d0",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/inAppNotificationData.json",
+            "size_bytes": 1434,
+            "sha256": "6b5261f1b18ac41a93115327ca935c925c3e42dd31b9d6fee91f3abf1793f38a",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/content/logo-gradient.svg",
+            "size_bytes": 9301,
+            "sha256": "78e8f869bcf093dcb334900d5cef50a730583ab8b1bb5f5d72083a72c01fd6dd",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default128.png",
+            "size_bytes": 32600,
+            "sha256": "d691f33ed42307323af015e2497b44726523fcefe18231ea95619963be6d322c",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default16.png",
+            "size_bytes": 968,
+            "sha256": "91ab1d84211124793af8f445bff7ecd87141d5d6ab43a40250893022dd1ff6fa",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default22.png",
+            "size_bytes": 1673,
+            "sha256": "abb3177d9541c57dd1af134f4dcb834ecb2c501104379e269255fcacc99337cd",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default24.png",
+            "size_bytes": 1935,
+            "sha256": "904ed2eb474533b04fe8649d550bc88abc96e83c1fe01e36948ebf884d14e301",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default256.png",
+            "size_bytes": 102674,
+            "sha256": "b4bbd6b357a87b8790c9f72360c0a3598857e8216b79640c2200956b72b877e8",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default32.png",
+            "size_bytes": 3156,
+            "sha256": "5c2117593721c66ca31ca7113dde193f41559dbddc32297193ef0180f4a53f6b",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default48.png",
+            "size_bytes": 6262,
+            "sha256": "4ef17900aa052adbb853153bf3192b98979beaa87f5e3f75ac36bccb8a34ed4e",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/default64.png",
+            "size_bytes": 10237,
+            "sha256": "95fa58a1309c934f880ac69893efb69e91b7916db1bc4c97328a5c05e0f8cc64",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/disk.icns",
+            "size_bytes": 1414172,
+            "sha256": "8352764a375996ca86812c243cbca26f4817f371d673a430070548f410f17cc2",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/dsstore",
+            "size_bytes": 10244,
+            "sha256": "93456a2b67e24c7e84c56d1dca9affb7dbf9d8f050202bfad3287d2b1250c64e",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/jar.mn",
+            "size_bytes": 1333,
+            "sha256": "5b1e00b6b1e438cbd7ec61691f7122cef3481e53fe832ab476938b4e6c5dec5c",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/locales/en-US/brand.dtd",
+            "size_bytes": 681,
+            "sha256": "d988eede36293ed9fd52a0fdc013c05407ba6fb1be479463cbd28386c33a0911",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/locales/en-US/brand.ftl",
+            "size_bytes": 746,
+            "sha256": "701b71a1f3a405fdd5260456850294980db9cd33bee5d777bc073ea710845bfa",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/locales/en-US/brand.properties",
+            "size_bytes": 317,
+            "sha256": "7221fcbaf9401f0ece941354f27484668acd2a165fe5151190b8a1fa6090a144",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/locales/jar.mn",
+            "size_bytes": 519,
+            "sha256": "b9de0397797fce81873af31b0b598ea3f7672065fc9b60c2a6c1d5b0145ab2c5",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/locales/moz.build",
+            "size_bytes": 301,
+            "sha256": "6ca659d701cdb8e90b8e7bd76dfbc0cd47543362d4fa209419dd5f59e280ec5c",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/messengerWindow.ico",
+            "size_bytes": 140308,
+            "sha256": "95405a7b40ffcd93506572ab19275c9c62e30890e291a2ef04ec315dccadea09",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/moz.build",
+            "size_bytes": 311,
+            "sha256": "c5146711bd67aa3e71858b195fa021d7b522d88ed123dd1f520ed08bdb7ce975",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Calendar44x44.png",
+            "size_bytes": 2313,
+            "sha256": "6ba193fa911769a7b49877597c632f3928eb792bf24bec0c780bba410dd0cd87",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Email44x44.png",
+            "size_bytes": 2306,
+            "sha256": "3371f4d0e6e09b1d92344ff132c0cd64e5ee0830d8f97a8e5b75d1451f4a333a",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/LargeTile.scale-200.png",
+            "size_bytes": 227049,
+            "sha256": "cb9a8d0566eb6057ac895c0d83616c7ecf946b254fbe33f0461d43441859d252",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/News44x44.png",
+            "size_bytes": 1643,
+            "sha256": "aa9df9bc954b5ad4fded5fd4f9ac79e41095f3e0f0e2bbb9e7b1f49a7d6f65fe",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/SmallTile.scale-200.png",
+            "size_bytes": 7607,
+            "sha256": "18de8a5feb1bed1a0c09c14090a6ef7efa627354b567e2ddb6238d05a682c4b2",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Square150x150Logo.scale-200.png",
+            "size_bytes": 65154,
+            "sha256": "b7cfdac8bb81094e59a0a4927a1781c11526fa9232e634a244595a606ee90965",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Square44x44Logo.altform-lightunplated_targetsize-256.png",
+            "size_bytes": 54235,
+            "sha256": "456e5d8d3465309a6ae352fea1d94953b763e8fe650911e2afc079bbaaedc081",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Square44x44Logo.altform-unplated_targetsize-256.png",
+            "size_bytes": 54235,
+            "sha256": "456e5d8d3465309a6ae352fea1d94953b763e8fe650911e2afc079bbaaedc081",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Square44x44Logo.scale-200.png",
+            "size_bytes": 6820,
+            "sha256": "e87868991431aa73a98c6ed53f0bfdde37f03adf3ccab0e90af593fab21250c3",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Square44x44Logo.targetsize-256.png",
+            "size_bytes": 37996,
+            "sha256": "1b742faa9957af8879fcb4e02e29f51ff3120364f7dc90fba048aeff7a7420ad",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/StoreLogo.scale-200.png",
+            "size_bytes": 12011,
+            "sha256": "4420ec8f73266f13aeacdf3a0fe8ab2027ac41d240ec31a34e3b65c4bef363dc",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/msix/Assets/Wide310x150Logo.scale-200.png",
+            "size_bytes": 14963,
+            "sha256": "7c46936b5344710d0a3d6bf591aab8262fd2d42bc2ac80f645f5a68935d8e664",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/newmail.ico",
+            "size_bytes": 21238,
+            "sha256": "ad1e00e667b5577809048774c9c9e1e89aeca0ca6cb82e9a059ec747fcfd3d80",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/pref/thunderbird-branding.js",
+            "size_bytes": 2032,
+            "sha256": "e817f877715fa55340a09ef0c0e437ab55b7167d1f41cdb44f218292bf88496e",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/thunderbird.VisualElementsManifest.xml",
+            "size_bytes": 541,
+            "sha256": "8b46740367aad5bc5733e5bceecae37d86d30d05fb40b1de2547c2431b949bd3",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/thunderbird.icns",
+            "size_bytes": 1023089,
+            "sha256": "9009dfc140eefa7bcc82ab923b5d8d2a642d2fb773bc24f773c42ccf52f58858",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/wizHeader.bmp",
+            "size_bytes": 34254,
+            "sha256": "7e1124b5dfd1f4bb29b65649076183fb8e8867c5c6b77682a2b6fd58837fd97b",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/wizHeaderRTL.bmp",
+            "size_bytes": 34254,
+            "sha256": "5010b56919d009f0413c7cfc7879693251f127b8f4331df6cd2b3401e3b1579b",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/wizWatermark.bmp",
+            "size_bytes": 206038,
+            "sha256": "702306222679a455d78a772bc4f9147fa489171d1446f25b574f970738cd7791",
+            "mode": "0755"
+          },
+          {
+            "path": "mail/branding/thunderbirdai/writeMessage.ico",
+            "size_bytes": 337,
+            "sha256": "e914573218fca4e6630b9e24a0e6168af517a6a55b50257372b0c777b68e21ec",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/AI-Correctness-Pass-2026-09-01.md",
+            "size_bytes": 4221,
+            "sha256": "17f2753b8f675a1d83e13ced583b61fef06e2f05c0cbd833e413786c0863ef35",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/AI-Evaluation-Run-2026-09-04.md",
+            "size_bytes": 10597,
+            "sha256": "77a5b1a853d13031392c728daf48a2ceb6268674246f3c4ac4c388d16a5b2120",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/AI-Mail-Pipeline-Deep-Dive.md",
+            "size_bytes": 43806,
+            "sha256": "eaacdf7f62d923250630f278496a5861344b5bc10aab98273d51fee5744b7c2d",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/AI-Mail-Pipeline-and-Evaluation.md",
+            "size_bytes": 33799,
+            "sha256": "fff0e321ccd2ecae8492615c8baf8f4d20cf6eb75d08649f6c29fcd4daa711ad",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/Local-ML-Artifact-Intake.md",
+            "size_bytes": 4946,
+            "sha256": "5f795184ad035e2835106929dad80cad126a1ac47bc5739d642623370cef0745",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/Model-Evaluation-Baseline-2026-08-31.md",
+            "size_bytes": 3905,
+            "sha256": "4628c4fa7bebee568d9e60638853f836e1d7b9b6ad0459e930e3cb3280d0f014",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/RAG-Modernization-Plan.md",
+            "size_bytes": 27945,
+            "sha256": "e6d124e4d37e2ebde034fe7a0a251c5aa9201442726fcc64d2b7ff98a5c2e1cf",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/Synthetic-Corpus-and-Processing-Timeline.md",
+            "size_bytes": 8304,
+            "sha256": "23f191cb0acdfd9f3b9d4ff906c72e527954693b3330bc37e338d9d086daab8b",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/docs/User-Guide-and-AI-Assistant-Test.md",
+            "size_bytes": 13840,
+            "sha256": "96f954ecabcad6a50e49ec7620100994a0a6024cbcf3b91736de3a2ad3e5fc9a",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AIClassification.sys.mjs",
+            "size_bytes": 5344,
+            "sha256": "da78d88a6d7a0db50eb8498e16b1802977c7562b33dde2d5b53815b9cb152e0b",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AIDatalog.sys.mjs",
+            "size_bytes": 6375,
+            "sha256": "675f07827bdcce8f1b5fe9f4eeea75f19adbd5f1192a580bf012bdb44765bfe0",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AIDrain3.sys.mjs",
+            "size_bytes": 6473,
+            "sha256": "056076ffdaab3df46d416d7a861c39def9012a26a75f44dadc469cab77c185a7",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AIGraph.sys.mjs",
+            "size_bytes": 19229,
+            "sha256": "31cbe48ec947bd5a299fe6f1762d6f73c3e091c15729da132353abfe645948ba",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AIPipeline.sys.mjs",
+            "size_bytes": 7693,
+            "sha256": "432311177ca63d36c14a3075d043c37bc8b4ec454229ad4b225f9c0f700446ae",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AIPrivateModelExperiment.sys.mjs",
+            "size_bytes": 18095,
+            "sha256": "d3896bcaeb5551abe7fa41b9a3359f0bcffce73857484e3cbec70ebc164427bd",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AIRAGIndex.sys.mjs",
+            "size_bytes": 95829,
+            "sha256": "0033ca0feddccbad5c8d932de1db864f3486708ad9c3a5644561988cdad789e7",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AISQLiteStorage.sys.mjs",
+            "size_bytes": 14800,
+            "sha256": "47e9c6a8ef1d9843b8995c9ce6bc46f2bf6b5b961f5ee72c237fd184bc841aeb",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AISafeRegex.sys.mjs",
+            "size_bytes": 3734,
+            "sha256": "f8efad9967640c43139a24716cc21cb7a4857666f50b43c04e8f815b3718720d",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/modules/AITextNormalization.sys.mjs",
+            "size_bytes": 10704,
+            "sha256": "ce8c1346dde1e43cd98554e30144c09149f77dfe7a60a3d6fbfe755b4bbf9c87",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/performance/head_xpcshell_benchmark.js",
+            "size_bytes": 1018,
+            "sha256": "2632378ca7268a38d166e079d0137c81ae86bb94b2d4c0e14dc58f6a81b2ee81",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/performance/xpcshell.toml",
+            "size_bytes": 81,
+            "sha256": "a0566b1e5360957b9679ae50a382a7166a90f1ceb265788773be64b19d0d4fa3",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/data/ai-synthetic-corpus.js",
+            "size_bytes": 17667,
+            "sha256": "fceddae58c3caa153a49ddc1511f7ed36b071ef1a5f7cc4d6cdde3d12d0e3f14",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/data/rag-eval-v1.json",
+            "size_bytes": 7555,
+            "sha256": "e55869c34122c803902ab07d0b34de3b0a47bcb57b45beb4da802fe831a65e16",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/data/rag-eval-v2.json",
+            "size_bytes": 20373,
+            "sha256": "4deabbb174a61ef62bc314d9821eb28528063e023ca79971431cc8d0667ea996",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_classification.js",
+            "size_bytes": 2595,
+            "sha256": "0f1e1db4de1f9ac8630c93ea04033c3a2b523894e63bfd83ca75d025ce8839a0",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_datalog.js",
+            "size_bytes": 3764,
+            "sha256": "174490964f7860b41bb4d8ae537f10f0f559176a03357a0834ebf067bb1b88ac",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_drain3.js",
+            "size_bytes": 4451,
+            "sha256": "d4fdf574e808119786a2cf5fd97603c3b65a4218ea084a51a99aefd435cb3de0",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_pipeline.js",
+            "size_bytes": 3827,
+            "sha256": "28da413f8300739c1180b145a55ff8f0867676eb3348a2df194531d14bb1c16a",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_private_model_experiment.js",
+            "size_bytes": 10505,
+            "sha256": "da23e5dd5fe614c8869a81e70f5d6ea96e3ce344883c5c464dde22a08bb6160c",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_rag_eval.js",
+            "size_bytes": 5310,
+            "sha256": "2d6dc93c6ad3547b92a5ee292c24b24a8ada46bc6ac14c26f23315bdf52298d6",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_rag_index.js",
+            "size_bytes": 32596,
+            "sha256": "6aab5caba1ee91a6a301998e74eaa8656498ef77c69eb008f8a8f507f0037be6",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_safe_regex.js",
+            "size_bytes": 2017,
+            "sha256": "b0085434ae140ba8624a347d2ed95d8fbec8c153c75e9cf56267f317719ef657",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_synthetic_10k_evaluation.js",
+            "size_bytes": 67296,
+            "sha256": "24dd0dbe226888ed841058e6741759c3106eaf7d620c2f17eb5d3b98b5155377",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_synthetic_corpus.js",
+            "size_bytes": 2017,
+            "sha256": "c9bd2d529423f425ec3f4abb67435a24000699e963015f8f91449adaeab9158b",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/test/unit/test_ai_text_normalization.js",
+            "size_bytes": 5062,
+            "sha256": "790044f4acab0f225910456aeb88507db32a12dffc8b32096e524a299f4e1592",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/tools/data/model-answer-eval-50-synthetic.json",
+            "size_bytes": 32126,
+            "sha256": "09f79d8df2bb73fd41fee62d1de9365adb3bfc6dbc554f77a54589f637f630ee",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/tools/data/model-answer-eval-v1.json",
+            "size_bytes": 6007,
+            "sha256": "8795e0527e16b8052514a636e99c46eff5af105b9ce1f531509450a47d81630e",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/tools/data/model-upgrade-eval-v1.json",
+            "size_bytes": 6645,
+            "sha256": "5d91e09af8733de32c3b001fc7cfb4b523273e3c9fb30954b7aa6a18e9d5bcb7",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/tools/evaluate_ollama_assistant_models.py",
+            "size_bytes": 17203,
+            "sha256": "6c0481b8d6c9694b57f0a1669b010d76ba41d792619f5c26441b2554fbc6817b",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/tools/evaluate_ollama_embeddings.py",
+            "size_bytes": 6781,
+            "sha256": "c8d0c19d112e9ada5bd325010af2c5d5e41cb075db9b3bfd4f3e66c2b2d550ea",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/ai/tools/evaluate_ollama_upgrades.py",
+            "size_bytes": 10545,
+            "sha256": "e0969d5673fa7c7664c5d5e1b3f1436be14ff44c5424add791258d5c4f03b66b",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/components/preferences/test/browser/browser_aiSettingsNavigation.js",
+            "size_bytes": 2789,
+            "sha256": "988b30e6bcf41dc99f66cb13055bb8ff92921f7c55ee71fae3628518a82a5e6c",
+            "mode": "0644"
+          },
+          {
+            "path": "mail/test/marionette/test_ai_real_endpoint_smoke.py",
+            "size_bytes": 32065,
+            "sha256": "fe40b7b3f1b4e3b97014cde3cdbff27d393ecd34e81bbf83806b0d6d9d98c912",
+            "mode": "0644"
+          }
+        ]
+      },
+      "deletions": {
+        "path": "deletions/comm.txt",
+        "file_count": 2,
+        "files": [
+          "third_party/clamav/database/daily.cvd",
+          "third_party/clamav/database/main.cvd"
+        ]
+      },
+      "worktree_status": {
+        "modified": 137,
+        "added": 64,
+        "missing": 2,
+        "unknown": 102
+      }
+    }
+  ]
+}

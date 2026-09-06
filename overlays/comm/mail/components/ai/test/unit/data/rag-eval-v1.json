@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "thunderbird-mail-rag-eval-v1",
+  "description": "Labelled synthetic mail retrieval set covering exact, constrained, semantic, sender, thread, and abstention queries.",
+  "records": [
+    {
+      "id": "mailbox://eval/Banking#1",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Banking",
+      "messageKey": 1,
+      "date": 1787529600000,
+      "subject": "Debit Card transaction of INR 805 at Book Nook",
+      "author": "Aster Bank Alerts <alerts@asterbank.test>",
+      "summary": "INR 805 was debited from account ending 1842 on 24 Aug 2026 at Book Nook using debit card. Reference TXN-HC-100005.",
+      "category": "finance",
+      "localText": "Aster Bank debit card Book Nook INR 805 24 Aug 2026 transaction reference TXN-HC-100005 account 1842",
+      "extractedEntities": {
+        "amounts": ["INR 805"],
+        "dates": ["24 Aug 2026"],
+        "references": ["TXN-HC-100005"]
+      }
+    },
+    {
+      "id": "mailbox://eval/Banking#2",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Banking",
+      "messageKey": 2,
+      "date": 1787097600000,
+      "subject": "Debit Card transaction of INR 9,421 at Book Nook",
+      "author": "Aster Bank Alerts <alerts@asterbank.test>",
+      "summary": "INR 9,421 was debited on 19 Aug 2026 at Book Nook. Reference TXN-HC-100473.",
+      "category": "finance",
+      "localText": "Aster Bank Book Nook INR 9421 19 Aug 2026 transaction TXN-HC-100473",
+      "extractedEntities": {
+        "amounts": ["INR 9,421"],
+        "dates": ["19 Aug 2026"],
+        "references": ["TXN-HC-100473"]
+      }
+    },
+    {
+      "id": "mailbox://eval/Jobs#3",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Jobs",
+      "messageKey": 3,
+      "date": 1787443200000,
+      "subject": "Interview invitation — Acme Platform Engineer",
+      "author": "Mira Shah <recruiting@acme.test>",
+      "summary": "Acme invited you to a platform engineering interview on Tuesday at 10:30 AM. Confirm before Friday.",
+      "category": "jobs",
+      "localText": "job application interview Acme platform engineer Tuesday 10:30 confirm Friday",
+      "actionItems": ["Confirm the Acme interview before Friday"]
+    },
+    {
+      "id": "mailbox://eval/Marketing#4",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Marketing",
+      "messageKey": 4,
+      "date": 1787356800000,
+      "subject": "Acme Cloud summer offer",
+      "author": "Acme Cloud <offers@acme-cloud.test>",
+      "summary": "Marketing newsletter offering 20 percent off cloud storage.",
+      "category": "marketing",
+      "localText": "Acme cloud sale discount newsletter unsubscribe"
+    },
+    {
+      "id": "mailbox://eval/Family#5",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Family",
+      "messageKey": 5,
+      "date": 1787270400000,
+      "subject": "Sunday dinner at Nana's",
+      "author": "Riya <riya@family.test>",
+      "summary": "Family dinner is at Nana's house Sunday at 7 PM. Bring the photo album.",
+      "category": "personal",
+      "localText": "family gathering Nana Sunday dinner seven pm bring photo album",
+      "actionItems": ["Bring the photo album"]
+    },
+    {
+      "id": "mailbox://eval/Office#6",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Office",
+      "messageKey": 6,
+      "date": 1787184000000,
+      "subject": "Atlas authentication outage incident review",
+      "author": "Atlas SRE <sre@atlas.test>",
+      "summary": "The login outage was caused by an expired signing certificate. Rotate certificates and add a 30-day expiry alert.",
+      "category": "work",
+      "localText": "Atlas incident postmortem authentication login outage expired certificate root cause remediation alert",
+      "actionItems": [
+        "Rotate signing certificates",
+        "Add a 30-day expiry alert"
+      ]
+    },
+    {
+      "id": "mailbox://eval/Office#7",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Office",
+      "messageKey": 7,
+      "date": 1787529600000,
+      "subject": "Atlas daily stand-up",
+      "author": "Atlas Team <team@atlas.test>",
+      "summary": "The team discussed dashboard polish, support tickets, and the next rollout checkpoint.",
+      "category": "work",
+      "localText": "Atlas daily standup dashboard rollout support tickets"
+    },
+    {
+      "id": "mailbox://eval/Travel#8",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Travel",
+      "messageKey": 8,
+      "date": 1787011200000,
+      "subject": "Indigo flight 6E 214 schedule change",
+      "author": "Indigo <updates@goindigo.test>",
+      "summary": "Flight 6E 214 from Bengaluru to Delhi now departs at 18:40 on 29 Aug 2026.",
+      "category": "travel",
+      "localText": "flight schedule change Indigo 6E 214 Bengaluru Delhi departs 18:40 29 Aug 2026"
+    },
+    {
+      "id": "mailbox://eval/Health#9",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Health",
+      "messageKey": 9,
+      "date": 1786924800000,
+      "subject": "Annual eye exam reminder",
+      "author": "ClearView Clinic <reminders@clearview.test>",
+      "summary": "Your optometrist appointment is 2 Sep 2026 at 11 AM.",
+      "category": "health",
+      "localText": "eye doctor optometrist appointment vision exam ClearView 2 Sep 2026 11 AM"
+    },
+    {
+      "id": "mailbox://eval/Finance#10",
+      "accountKey": "server1",
+      "folderURI": "mailbox://eval/Finance",
+      "messageKey": 10,
+      "date": 1786838400000,
+      "subject": "Northwind invoice INV-774 is due",
+      "author": "Northwind Billing <billing@northwind.test>",
+      "summary": "Invoice INV-774 for INR 14,800 is due 31 Aug 2026 and needs approval.",
+      "category": "finance",
+      "localText": "Northwind bill invoice INV-774 INR 14800 due 31 Aug 2026 approval",
+      "actionItems": ["Approve invoice INV-774"]
+    }
+  ],
+  "queries": [
+    {
+      "id": "q01",
+      "query": "TXN-HC-100005",
+      "relevant": ["mailbox://eval/Banking#1"],
+      "kind": "exact"
+    },
+    {
+      "id": "q02",
+      "query": "Book Nook INR 805 on 24 Aug 2026",
+      "relevant": ["mailbox://eval/Banking#1"],
+      "kind": "constrained"
+    },
+    {
+      "id": "q03",
+      "query": "Which recruiter invited me to a software job interview?",
+      "relevant": ["mailbox://eval/Jobs#3"],
+      "kind": "semantic"
+    },
+    {
+      "id": "q04",
+      "query": "What do I need to bring to the family gathering?",
+      "relevant": ["mailbox://eval/Family#5"],
+      "kind": "semantic"
+    },
+    {
+      "id": "q05",
+      "query": "What caused the Atlas login failure?",
+      "relevant": ["mailbox://eval/Office#6"],
+      "kind": "semantic"
+    },
+    {
+      "id": "q06",
+      "query": "When does flight 6E 214 leave?",
+      "relevant": ["mailbox://eval/Travel#8"],
+      "kind": "entity"
+    },
+    {
+      "id": "q07",
+      "query": "When is my vision appointment?",
+      "relevant": ["mailbox://eval/Health#9"],
+      "kind": "semantic"
+    },
+    {
+      "id": "q08",
+      "query": "Which Northwind bill needs approval?",
+      "relevant": ["mailbox://eval/Finance#10"],
+      "kind": "semantic"
+    },
+    {
+      "id": "q09",
+      "query": "messages from recruiting@acme.test",
+      "relevant": ["mailbox://eval/Jobs#3"],
+      "kind": "sender"
+    },
+    {
+      "id": "q10",
+      "query": "TXN-HC-999999",
+      "relevant": [],
+      "kind": "abstention"
+    }
+  ],
+  "gates": { "recallAt8": 0.9, "mrr": 0.75, "exactFalsePositiveRate": 0 }
+}
